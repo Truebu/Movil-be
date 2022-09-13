@@ -1,0 +1,31 @@
+version: "3.7"
+networks:
+  Movil-Network:
+    driver: bridge
+services:
+  dbMovilMongo:
+    image: mongo:5.0.5
+    container_name: dbMovilMongo
+    restart: always
+    environment:
+      - MONGO_INITDB_DATABASE=Note
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=Secret1234+
+    ports:
+      - 27018:27017
+    networks:
+      - Movil-Network
+  api-movil-be:
+    image: api-movil-be:1.0
+    container_name: api-movil-be
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    depends_on:
+      - dbMovilMongo
+    environment:
+      - DB_URI=dbMovilMongo:27017/Note
+      - DB_USER=root
+      - DB_PASS=Secret1234+
+    networks:
+      - Movil-Network

@@ -1,0 +1,8 @@
+#Ignoring node and cache modules
+node_modules
+
+traits
+
+README.md
+
+test
